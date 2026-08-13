@@ -37,7 +37,7 @@ DiffReceipt parses supported repository files as untrusted text. It does not ins
 
 ## License
 
-No open-source license has been granted yet. Copyright is reserved. A deliberate distribution license must be selected before broader commercial or community adoption.
+Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE). The hosted DiffReceipt service and private operational source are outside this runtime distribution's license scope.
 
 ## Security
 
