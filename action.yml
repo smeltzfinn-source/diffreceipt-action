@@ -1,0 +1,21 @@
+name: DiffReceipt
+description: Show what new powers a pull request gives your application
+author: DiffReceipt
+inputs:
+  policy:
+    description: Policy file path
+    required: false
+    default: .diffreceipt/policy.yml
+  json-output:
+    description: Machine-readable receipt output path
+    required: false
+    default: diffreceipt-receipt.json
+outputs:
+  conclusion:
+    description: allowed, attention-required, or error
+runs:
+  using: node24
+  main: dist/index.js
+branding:
+  icon: shield
+  color: green
