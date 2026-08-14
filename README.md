@@ -4,6 +4,8 @@
 
 [Explore the demo](https://diffreceipt.coachdaveswim.com/demo) · [Five-minute quickstart](https://diffreceipt.coachdaveswim.com/quickstart.md) · [Detector support](https://diffreceipt.coachdaveswim.com/detector-support.md) · [Policy cookbook](https://diffreceipt.coachdaveswim.com/policy-cookbook.md)
 
+![DiffReceipt synthetic capability receipt](assets/demo.png)
+
 ## Use
 
 ```yaml
