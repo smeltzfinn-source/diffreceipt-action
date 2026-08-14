@@ -1,20 +1,18 @@
-# DiffReceipt Action
+# DiffReceipt GitHub Action
 
-Deterministically identify new application capabilities introduced by a pull request without installing dependencies or executing repository code.
+**Capability-change control for pull requests.** DiffReceipt shows what new powers a PR gives an application—outbound hosts, likely-secret names, routes, database operations, dependencies, scheduled jobs, process execution, and GitHub Actions permissions—without installing dependencies or executing analyzed repository code.
 
-This repository is the public, runtime-only distribution of the DiffReceipt GitHub Action. Hosted-service source and private operational configuration are not included.
+[Explore the demo](https://diffreceipt.coachdaveswim.com/demo) · [Five-minute quickstart](https://diffreceipt.coachdaveswim.com/quickstart.md) · [Detector support](https://diffreceipt.coachdaveswim.com/detector-support.md) · [Policy cookbook](https://diffreceipt.coachdaveswim.com/policy-cookbook.md)
 
-## Usage
+## Use
 
 ```yaml
 name: DiffReceipt
-on:
-  pull_request:
+on: pull_request
 permissions:
   contents: read
-  pull-requests: read
 jobs:
-  capability-review:
+  receipt:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
@@ -23,22 +21,32 @@ jobs:
       - uses: smeltzfinn-source/diffreceipt-action@v0
 ```
 
-For security-sensitive repositories, pin DiffReceipt to the full commit SHA corresponding to the accepted immutable release rather than a moving major tag.
+For immutable supply-chain pinning, use a full accepted runtime commit SHA. `v0` moves only after an immutable beta tag passes an unrelated-repository acceptance run.
 
-## Output
+| Input | Default | Purpose |
+|---|---|---|
+| `policy` | `.diffreceipt/policy.yml` | Reviewed repository policy path |
+| `json-output` | `diffreceipt-receipt.json` | Machine-readable receipt output path |
 
-- `conclusion`: `allowed`, `attention-required`, or `error`
+The `conclusion` output is `allowed`, `attention-required`, or `error`. Approval-required and blocked decisions fail the step by design. Start with informational/warn policy rules while learning normal repository behavior.
 
-The Action writes `diffreceipt-receipt.json` by default, adds a job summary, and fails for `block` or unresolved `require_approval` findings. A nonzero policy verdict is expected enforcement behavior, not an Action runtime crash.
+## Real synthetic PRs
+
+The public [`diffreceipt-examples`](https://github.com/smeltzfinn-source/diffreceipt-examples/pulls) repository contains credential-free PRs for eight detector categories. Every example is analyzed by this Action and never represents customer source.
 
 ## Trust boundary
 
-DiffReceipt parses supported repository files as untrusted text. It does not install the target repository's dependencies, run package scripts, import application modules, or execute discovered commands.
+- Deterministic, non-LLM analysis.
+- Never installs target dependencies, imports target modules, or executes target scripts.
+- Reads the checked-out base/head as untrusted text.
+- Requires only `contents: read`; broad write permissions are unnecessary.
+- Does not upload repository source to the hosted service.
+- Is capability-diff review, not SAST, CVE scanning, secret-value scanning, malware detection, or runtime monitoring.
 
-## License
+See the public [trust model](https://diffreceipt.coachdaveswim.com/trust), [compatibility contract](https://diffreceipt.coachdaveswim.com/compatibility.json), and [security policy](SECURITY.md).
 
-Licensed under the Apache License, Version 2.0. See [LICENSE](LICENSE). The hosted DiffReceipt service and private operational source are outside this runtime distribution's license scope.
+## Support and license
 
-## Security
+Use [public issues](https://github.com/smeltzfinn-source/diffreceipt-action/issues) for reproducible non-sensitive bugs. Follow [SECURITY.md](SECURITY.md) for vulnerabilities; never post credentials, private source, webhook payloads, private receipt URLs, or production environment contents.
 
-Do not open a public issue containing credentials or private source. Report vulnerabilities through the security contact configured at https://diffreceipt.coachdaveswim.com.
+Apache-2.0 covers this public Action runtime. The hosted service and private operational source are outside this repository's license scope.
